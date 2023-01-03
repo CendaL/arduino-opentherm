@@ -164,7 +164,7 @@ class OPENTHERM {
      * @param data Opentherm data packet.
      * @param callback if provided, callback function is called once data packet is sent.
      */
-    static void send(byte pin, OpenthermData &data, void (*callback)() = NULL);
+    static void IRAM_ATTR send(byte pin, OpenthermData &data, void (*callback)() = NULL);
 
     /**
      * Use this function to check whether send() function already finished sending data packed to line.
@@ -206,7 +206,7 @@ class OPENTHERM {
     static void _timerISR(); // this function needs to be public since its attached as interrupt handler
 #endif // END ESP8266
 #ifdef ESP8266
-    static void ICACHE_RAM_ATTR _timerISR(); // this function needs to be public since its attached as interrupt handler
+    static void IRAM_ATTR _timerISR(); // this function needs to be public since its attached as interrupt handler
 #endif // END ESP8266
 #ifdef ESP32
     static void IRAM_ATTR _timerISR(); // this function needs to be public since its attached as interrupt handler
@@ -226,19 +226,19 @@ class OPENTHERM {
     static volatile bool _active;
     static volatile int _timeoutCounter; // <0 no timeout
 
-    static void _listen(); // listen to incoming data packets
-    static void _read(); // data detected start reading
-    static void _stop(); // stop timers and interrupts
-    static void _startReadTimer(); // reading timer to sample at 1/5 of manchester code bit length (at 5kHz)
-    static void _startWriteTimer(); // writing timer to send manchester code (at 2kHz)
-    static void _startTimeoutTimer(); // timeout count down timer (at 1kHz)
-    static void _stopTimer();
-    static bool _checkParity(unsigned long val);
+    static void IRAM_ATTR _listen(); // listen to incoming data packets
+    static void IRAM_ATTR _read(); // data detected start reading
+    static void IRAM_ATTR _stop(); // stop timers and interrupts
+    static void IRAM_ATTR _startReadTimer(); // reading timer to sample at 1/5 of manchester code bit length (at 5kHz)
+    static void IRAM_ATTR _startWriteTimer(); // writing timer to send manchester code (at 2kHz)
+    static void IRAM_ATTR _startTimeoutTimer(); // timeout count down timer (at 1kHz)
+    static void IRAM_ATTR _stopTimer();
+    static bool IRAM_ATTR _checkParity(unsigned long val);
 
-    static void _bitRead(byte value);
-    static bool _verifyStopBit(byte value);
-    static void _writeBit(byte high, byte pos);
-    static void _callCallback();
+    static void IRAM_ATTR _bitRead(byte value);
+    static bool IRAM_ATTR _verifyStopBit(byte value);
+    static void IRAM_ATTR _writeBit(byte high, byte pos);
+    static void IRAM_ATTR _callCallback();
 };
 
 #endif
